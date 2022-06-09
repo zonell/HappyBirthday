@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlueGrey"
+    tools:context=".feature.main.MainActivity">
+
+    <TextView
+        android:id="@+id/tvAppTitle"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20.5pt"
+        android:layout_marginEnd="16dp"
+        android:text="@string/app_name"
+        android:textSize="32sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_nanit_logo"
+        app:layout_constraintEnd_toEndOf="@+id/tvAppTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvAppTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvAppTitle" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filledTextField"
+        android:layout_width="@dimen/zero_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:hint="@string/tv_name"
+        app:layout_constraintEnd_toEndOf="@+id/tvAppTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvAppTitle"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etName"
+            style="@style/MainTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightBlueGrey"
+            android:inputType="textCapSentences"
+            android:textSize="@dimen/normal_text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/actionBirthday"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/click_to_date_of_birth"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintEnd_toEndOf="@+id/filledTextField"
+        app:layout_constraintStart_toStartOf="@+id/filledTextField"
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField" />
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_placeholder_green"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionBirthday" />
+
+    <ImageView
+        android:id="@+id/ivCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera_icon_green"
+        app:layout_constraintCircle="@+id/ivPhoto"
+        app:layout_constraintCircleAngle="45"
+        app:layout_constraintCircleRadius="111dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/MainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:enabled="false"
+        android:text="@string/show_birthday_screen"
+        android:textAllCaps="false"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
