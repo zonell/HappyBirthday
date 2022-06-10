@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nanit.happybirthday">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
-        android:allowBackup="true"
         android:name=".App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,9 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyBirthday">
         <activity
+            android:name=".feature.b_day.BirthdayActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.takePhoto.TakePhotoActivity"
+            android:exported="true" />
+        <activity
             android:name=".feature.main.MainActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

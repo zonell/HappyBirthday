@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Happy Birthday</string>
+    <string name="dir">HappyBirthday</string>
     <string name="tv_name">Name</string>
     <string name="click_to_date_of_birth">Click to select date of birth</string>
     <string name="show_birthday_screen">Show birthday screen</string>
+    <string name="take_photo">Take photo</string>
+    <string name="how_would_you_like_to_add_a_photo_upload_from_gallery_or_take_a_new_photo">How would you like to add a photo? Upload from gallery or take a new photo?</string>
+    <string name="upload">Upload</string>
+    <string name="take">Take</string>
+    <string name="external_storage_permission">"Happy Birthday" needs access to read/write storage and camera</string>
 </resources>
