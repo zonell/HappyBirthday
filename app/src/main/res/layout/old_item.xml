@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:textSize="21sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TODAY CRISTIANO RONALDO IS" />
+
+    <ImageView
+        android:id="@+id/ivOld"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:src="@drawable/ic_1_old" />
+
+    <ImageView
+        android:id="@+id/ivLeftSwirls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:src="@drawable/ic_swirls"
+        app:layout_constraintBottom_toBottomOf="@+id/ivOld"
+        app:layout_constraintEnd_toStartOf="@+id/ivOld"
+        app:layout_constraintTop_toTopOf="@+id/ivOld" />
+
+    <ImageView
+        android:id="@+id/ivRightSwirls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:rotation="180"
+        android:src="@drawable/ic_swirls"
+        app:layout_constraintBottom_toBottomOf="@+id/ivOld"
+        app:layout_constraintStart_toEndOf="@+id/ivOld"
+        app:layout_constraintTop_toTopOf="@+id/ivOld" />
+
+    <TextView
+        android:id="@+id/tvOld"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivOld"
+        app:layout_constraintStart_toStartOf="@+id/ivOld"
+        app:layout_constraintTop_toBottomOf="@+id/ivOld"
+        tools:text="MONTH OLD!" />
+</androidx.constraintlayout.widget.ConstraintLayout>

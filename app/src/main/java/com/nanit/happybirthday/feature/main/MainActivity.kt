@@ -16,13 +16,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.nanit.happybirthday.R
 import com.nanit.happybirthday.feature.b_day.BirthdayActivity
+import com.nanit.happybirthday.feature.main.model.PhotoType
 import com.nanit.happybirthday.feature.takePhoto.TakePhotoActivity
 import com.nanit.happybirthday.feature.takePhoto.TakePhotoActivity.Companion.PHOTO
 import com.nanit.happybirthday.feature.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.photo_item.*
 import kotlinx.android.synthetic.main.take_photo_dialog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         initDate()
         initViews()
         initDatePicker()
+        setStatusBarColor(R.color.lightBlueGreen)
     }
 
     private fun initViews() {
@@ -95,7 +99,17 @@ class MainActivity : AppCompatActivity() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
 
-        dialog?.datePicker?.apply { maxDate = System.currentTimeMillis() }
+        val min = Calendar.getInstance()
+        min.set(
+            calendar.get(Calendar.YEAR) - MAX_AGE,
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        dialog?.datePicker?.apply {
+            maxDate = System.currentTimeMillis()
+            minDate = min.timeInMillis
+        }
     }
 
     private var takePhoto =
@@ -103,8 +117,11 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let {
                     it.getStringExtra(PHOTO)?.replace(FILE_PATH, EMPTY_STRING).apply {
-                        setPhoto(this)
-                        ivPhoto.setImageBitmap(getBitmap())
+                        mainVM.photoAdded(this, PhotoType.TAKE)
+                        ivPhoto.apply {
+                            setImageBitmap(getImgBitmap())
+                            post { changeRadius(ivCamera) }
+                        }
                     }
                 }
             }
@@ -115,20 +132,15 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { intent ->
                     intent.data?.let {
-                        setPhoto(it.path)
-                        ivPhoto.setImageURI(it)
+                        mainVM.photoAdded(it.toString(), PhotoType.UPLOAD)
+                        ivPhoto.apply {
+                            setImageURI(it)
+                            post { changeRadius(ivCamera) }
+                        }
                     }
                 }
             }
         }
-
-    private fun setPhoto(path: String?) {
-        ivPhoto.apply {
-            mainVM.photoAdded(path)
-            borderWidth = 10
-            borderColor = getColor(R.color.paleTeal)
-        }
-    }
 
     private fun showPhotoDialog() {
         DialogBuilder(this).build().apply {
@@ -208,6 +220,7 @@ class MainActivity : AppCompatActivity() {
         private const val EMPTY_STRING = ""
         private const val FILE_PATH = "file:///"
         private const val REQUEST_CODE_PERMISSIONS = 752
+        private const val MAX_AGE = 12
 
         private val REQUIRED_PERMISSIONS = arrayOf(
             Manifest.permission.CAMERA,

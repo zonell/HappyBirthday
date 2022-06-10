@@ -2,7 +2,7 @@
 
     <style name="Theme.HappyBirthday" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/paleTeal</item>
-        <item name="colorPrimaryVariant">@color/lightBlueGrey</item>
+        <item name="colorPrimaryVariant">@color/lightBlueGreen</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
 

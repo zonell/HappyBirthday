@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.view.View
 import java.io.File
 
 
@@ -16,13 +17,14 @@ private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
     )
 }
 
-fun String?.getBitmap() : Bitmap? {
+fun String?.getImgBitmap() : Bitmap? {
     return this?.let {
         val ei = ExifInterface(it)
         val orientation: Int = ei.getAttributeInt(
             ExifInterface.TAG_ORIENTATION,
             ExifInterface.ORIENTATION_UNDEFINED
         )
+//        storage/emulated/0/Android/media/com.nanit.happybirthday/HappyBirthday/2022-06-10-11-47-45-038.png
 
         val imgFile = File(it)
 

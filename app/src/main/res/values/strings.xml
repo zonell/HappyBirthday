@@ -9,4 +9,7 @@
     <string name="upload">Upload</string>
     <string name="take">Take</string>
     <string name="external_storage_permission">"Happy Birthday" needs access to read/write storage and camera</string>
+    <string name="today_s_is">TODAY %s IS</string>
+    <string name="s_old">%s OLD!</string>
+    <string name="share_the_news">Share the news</string>
 </resources>

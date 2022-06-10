@@ -5,9 +5,11 @@
 
     <color name="darkGreyBlue">#394562</color>
     <color name="paleTeal">#6fc5af</color>
-    <color name="lightBlueGrey">#c5e8df</color>
-    <color name="blush">#ef7b7b</color>
+    <color name="lightBlueGreen">#c5e8df</color>
     <color name="lightTeal">#8bd3e4</color>
+    <color name="lightBlueGrey">#daf1f6</color>
     <color name="goldenYellow">#febe20</color>
+    <color name="pale">#feefcb</color>
+    <color name="blush">#ef7b7b</color>
     <color name="blush_50">#80EF7B7B</color>
 </resources>
