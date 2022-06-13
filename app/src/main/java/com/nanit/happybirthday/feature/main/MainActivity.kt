@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.nanit.happybirthday.R
 import com.nanit.happybirthday.feature.b_day.BirthdayActivity
-import com.nanit.happybirthday.feature.main.model.PhotoType
 import com.nanit.happybirthday.feature.takePhoto.TakePhotoActivity
 import com.nanit.happybirthday.feature.takePhoto.TakePhotoActivity.Companion.PHOTO
 import com.nanit.happybirthday.feature.utils.*
@@ -66,10 +65,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         ivPhoto.setPhoto(R.color.paleTeal, R.drawable.ic_placeholder_green)
+    }
 
-        ivPhoto.viewTreeObserver.addOnDrawListener {
-            ivPhoto.post { ivPhoto.changeRadius(ivCamera, windowManager) }
-        }
+    override fun onResume() {
+        super.onResume()
+        ivCamera.post { ivCamera.changeRadius(ivPhoto, windowManager) }
     }
 
     private fun initDate() {
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let {
                     it.getStringExtra(PHOTO)?.apply {
-                        mainVM.photoAdded(this, PhotoType.TAKE)
+                        mainVM.photoAdded(this)
                         ivPhoto.setPhoto(R.color.paleTeal, this)
                     }
                 }
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.data?.let {
-                    mainVM.photoAdded(it.toString(), PhotoType.UPLOAD)
+                    mainVM.photoAdded(it.toString())
                     ivPhoto.setPhoto(R.color.paleTeal, it)
                 }
             }

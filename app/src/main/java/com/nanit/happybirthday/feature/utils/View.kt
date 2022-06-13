@@ -2,7 +2,6 @@ package com.nanit.happybirthday.feature.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
 import android.view.View
 import android.view.WindowManager
@@ -65,13 +64,19 @@ fun Activity?.setStatusBarColor(color: Int) {
     }
 }
 
-fun View.changeRadius(view: View, windowManager: WindowManager) {
-    val point = getLocationOnScreen()
-    val layoutParams = view.layoutParams as ConstraintLayout.LayoutParams
-    layoutParams.circleRadius =
-        (windowManager.defaultDisplay.width - (point.x.dp * 2)).dp -
-                context.resources.getDimension(R.dimen.border_radius).toInt().dp*2
-    view.layoutParams = layoutParams
+fun View.getBitmapFromView(): Bitmap {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    draw(Canvas(bitmap))
+    return bitmap
+}
+
+fun View.changeRadius(view: ImageView, windowManager: WindowManager) {
+    val point = view.getLocationOnScreen()
+    val rootLayoutParams = layoutParams as ConstraintLayout.LayoutParams
+    rootLayoutParams.circleRadius =
+        (windowManager.defaultDisplay.width - (point.x * 2)) / 2 -
+                context.resources.getDimension(R.dimen.border_radius).toInt()
+    layoutParams = rootLayoutParams
 }
 
 private fun View.getLocationOnScreen(): Point {
@@ -150,9 +155,6 @@ private fun Bitmap.createBitmapWithBorder(borderSize: Float, borderColor: Int): 
     canvas.drawCircle(centerX, centerY, circleRadius, paint)
     return newBitmap
 }
-
-val Int.dp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 
 

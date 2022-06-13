@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nanit.happybirthday.feature.main.model.Baby
 import com.nanit.happybirthday.feature.main.model.DataType
-import com.nanit.happybirthday.feature.main.model.PhotoType
 import java.util.*
 
 class MainViewModel : ViewModel() {
@@ -28,7 +27,8 @@ class MainViewModel : ViewModel() {
     fun bDayEntered(calendar: Calendar) {
         val year = this.calendar.get(Calendar.YEAR) - calendar.get(Calendar.YEAR)
         val month = this@MainViewModel.calendar.get(Calendar.MONTH) - calendar.get(Calendar.MONTH)
-        val day = this@MainViewModel.calendar.get(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
+        val day =
+            this@MainViewModel.calendar.get(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
         when {
             year > 1 -> {
                 baby.apply {
@@ -70,7 +70,8 @@ class MainViewModel : ViewModel() {
                             }
                         }
                         else -> {
-                            bDay = (if (day >= 0) (MONTH_IN_YEAR + month) else (MONTH_IN_YEAR + month - 1)).toString()
+                            bDay =
+                                (if (day >= 0) (MONTH_IN_YEAR + month) else (MONTH_IN_YEAR + month - 1)).toString()
                             dataType = DataType.MONTH
                         }
                     }
@@ -94,11 +95,8 @@ class MainViewModel : ViewModel() {
         updateBtnState()
     }
 
-    fun photoAdded(photoUri: String?, photoType: PhotoType) {
-        baby.apply {
-            this.photoUri = photoUri
-            this.photoType = photoType
-        }
+    fun photoAdded(photoUri: String?) {
+        baby.photoUri = photoUri
     }
 
     private fun updateBtnState() {

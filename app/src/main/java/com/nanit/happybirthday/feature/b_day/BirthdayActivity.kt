@@ -4,13 +4,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.google.gson.Gson
 import com.nanit.happybirthday.R
 import com.nanit.happybirthday.feature.b_day.model.UI
@@ -24,6 +27,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.old_item.*
 import kotlinx.android.synthetic.main.photo_item.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 class BirthdayActivity : AppCompatActivity() {
 
@@ -38,11 +45,51 @@ class BirthdayActivity : AppCompatActivity() {
         initListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        ivCamera.post { ivCamera.changeRadius(ivPhoto, windowManager) }
+    }
+
     private fun initListener() {
         backAction.setOnClickListener { onBackPressed() }
         ivCamera.setOnClickListener {
             DialogBuilder(this).showPhotoDialog({ takePhoto() }, { uploadPhoto() })
         }
+        actionShared.setOnClickListener { shareBitmap(listOf(ivCamera, backAction, actionShared)) }
+    }
+
+    private fun shareBitmap(viewGone: List<View>) {
+        viewGone.forEach { it.gone() }
+        val bitmap: Bitmap = Bitmap.createBitmap(content.getBitmapFromView())
+        val cachePath = File(externalCacheDir, PHOTO_PATH)
+        cachePath.mkdirs()
+
+        val file = File(cachePath, "${TakePhotoActivity.FILENAME_FORMAT}.png")
+        val fileOutputStream: FileOutputStream
+        try {
+            fileOutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+            fileOutputStream.flush()
+            fileOutputStream.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        val myImageFileUri = FileProvider.getUriForFile(
+            this,
+            "${applicationContext.packageName}$PROVIDER",
+            file
+        )
+
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.putExtra(Intent.EXTRA_STREAM, myImageFileUri)
+        intent.type = "image/png"
+        startActivity(Intent.createChooser(intent, SHARED_TITLE))
+        viewGone.forEach { it.visible() }
     }
 
     private fun initUI(ui: UI) {
@@ -146,6 +193,9 @@ class BirthdayActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 752
         private const val BABY = "baby"
+        private const val PHOTO_PATH = "my_images/"
+        private const val PROVIDER = ".provider"
+        private const val SHARED_TITLE = "Share nanit"
 
         fun newIntent(context: Context, baby: Baby): Intent {
             val intent = Intent(context, BirthdayActivity::class.java)

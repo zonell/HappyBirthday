@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -86,7 +86,6 @@ class TakePhotoActivity : AppCompatActivity() {
             })
     }
 
-
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.dir)).apply { mkdirs() }
@@ -103,6 +102,5 @@ class TakePhotoActivity : AppCompatActivity() {
         fun newIntent(context: Context): Intent {
             return Intent(context, TakePhotoActivity::class.java)
         }
-
     }
 }

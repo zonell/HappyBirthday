@@ -12,17 +12,18 @@ import kotlinx.android.synthetic.main.take_photo_dialog.*
 
 class DialogBuilder(context: Context) : Dialog(context) {
 
-    fun build(): Dialog {
-        val dialogView = Dialog(context, R.style.Base_Theme_AppCompat_Dialog_Alert)
-        dialogView.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogView.window?.attributes?.gravity = Gravity.CENTER
-        dialogView.window?.attributes?.width = ViewGroup.LayoutParams.MATCH_PARENT
+    private fun build(): Dialog {
+        val dialogView = Dialog(context, R.style.Base_Theme_AppCompat_Dialog_Alert).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            window?.attributes?.gravity = Gravity.CENTER
+            window?.attributes?.width = ViewGroup.LayoutParams.MATCH_PARENT
+        }
 
         return dialogView
     }
 
-    fun showPhotoDialog(takePhoto:() -> Unit, uploadPhoto:() -> Unit) {
+    fun showPhotoDialog(takePhoto: () -> Unit, uploadPhoto: () -> Unit) {
         DialogBuilder(context).build().apply {
             setContentView(R.layout.take_photo_dialog)
             tvTitle.text = context.getString(R.string.take_photo)
@@ -44,5 +45,4 @@ class DialogBuilder(context: Context) : Dialog(context) {
             }
         }.show()
     }
-
 }
