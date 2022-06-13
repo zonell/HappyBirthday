@@ -5,5 +5,5 @@ data class Baby(
     var bDay: String = "",
     var dataType: DataType? = null,
     var photoType: PhotoType? = null,
-    var photoUri: String = ""
+    var photoUri: String? = null
 )

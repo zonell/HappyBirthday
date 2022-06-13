@@ -1,6 +1,5 @@
 package com.nanit.happybirthday.feature.main
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -13,19 +12,17 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.nanit.happybirthday.R
 import com.nanit.happybirthday.feature.b_day.BirthdayActivity
 import com.nanit.happybirthday.feature.main.model.PhotoType
 import com.nanit.happybirthday.feature.takePhoto.TakePhotoActivity
 import com.nanit.happybirthday.feature.takePhoto.TakePhotoActivity.Companion.PHOTO
 import com.nanit.happybirthday.feature.utils.*
+import com.nanit.happybirthday.feature.utils.Permissions.Companion.REQUIRED_PERMISSIONS_CAMERA
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.photo_item.*
-import kotlinx.android.synthetic.main.take_photo_dialog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,11 +58,17 @@ class MainActivity : AppCompatActivity() {
         content.setOnClickListener { it.hideKeyboard() }
         ivCamera.setOnClickListener {
             it.hideKeyboard()
-            showPhotoDialog()
+            DialogBuilder(this).showPhotoDialog({ takePhoto() }, { uploadPhoto() })
         }
         btnNext.setOnClickListener {
             it.hideKeyboard()
             startActivity(BirthdayActivity.newIntent(this, mainVM.getBaby()))
+        }
+
+        ivPhoto.setPhoto(R.color.paleTeal, R.drawable.ic_placeholder_green)
+
+        ivPhoto.viewTreeObserver.addOnDrawListener {
+            ivPhoto.post { ivPhoto.changeRadius(ivCamera, windowManager) }
         }
     }
 
@@ -116,12 +119,9 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let {
-                    it.getStringExtra(PHOTO)?.replace(FILE_PATH, EMPTY_STRING).apply {
+                    it.getStringExtra(PHOTO)?.apply {
                         mainVM.photoAdded(this, PhotoType.TAKE)
-                        ivPhoto.apply {
-                            setImageBitmap(getImgBitmap())
-                            post { changeRadius(ivCamera) }
-                        }
+                        ivPhoto.setPhoto(R.color.paleTeal, this)
                     }
                 }
             }
@@ -130,47 +130,19 @@ class MainActivity : AppCompatActivity() {
     private var uploadPhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.let { intent ->
-                    intent.data?.let {
-                        mainVM.photoAdded(it.toString(), PhotoType.UPLOAD)
-                        ivPhoto.apply {
-                            setImageURI(it)
-                            post { changeRadius(ivCamera) }
-                        }
-                    }
+                result.data?.data?.let {
+                    mainVM.photoAdded(it.toString(), PhotoType.UPLOAD)
+                    ivPhoto.setPhoto(R.color.paleTeal, it)
                 }
             }
         }
 
-    private fun showPhotoDialog() {
-        DialogBuilder(this).build().apply {
-            setContentView(R.layout.take_photo_dialog)
-            tvTitle.text = context.getString(R.string.take_photo)
-            tvDescription.text =
-                context.getText(R.string.how_would_you_like_to_add_a_photo_upload_from_gallery_or_take_a_new_photo)
-            btnNegative.apply {
-                text = context.getString(R.string.take)
-                setOnClickListener {
-                    takePhoto()
-                    dismiss()
-                }
-            }
-            btnPositive.apply {
-                text = context.getString(R.string.upload)
-                setOnClickListener {
-                    uploadPhoto()
-                    dismiss()
-                }
-            }
-        }.show()
-    }
-
     private fun takePhoto() {
-        if (allPermissionsGranted()) {
+        if (Permissions.permissionsCamera(baseContext)) {
             startTakePhoto()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                this, REQUIRED_PERMISSIONS_CAMERA, REQUEST_CODE_PERMISSIONS
             )
         }
     }
@@ -201,12 +173,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(
-            baseContext, it
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
     private fun uploadPhoto() {
         uploadPhoto.launch(
             Intent(
@@ -217,14 +183,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val EMPTY_STRING = ""
-        private const val FILE_PATH = "file:///"
         private const val REQUEST_CODE_PERMISSIONS = 752
         private const val MAX_AGE = 12
-
-        private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
     }
 }

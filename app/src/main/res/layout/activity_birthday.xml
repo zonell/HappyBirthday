@@ -12,8 +12,8 @@
         android:id="@+id/backAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="7.5dp"
+        android:layout_marginStart="4dp"
+        android:padding="8dp"
         android:src="@drawable/ic_arrow_back_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
     <include
         android:id="@+id/photoPlace"
         layout="@layout/photo_item"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/zero_size"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@+id/ivLogo"
@@ -56,12 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:src="@drawable/ic_nanit_logo"
-        app:layout_constraintBottom_toTopOf="@+id/tvShared"
-        app:layout_constraintEnd_toEndOf="@+id/tvShared"
-        app:layout_constraintStart_toStartOf="@+id/tvShared" />
+        app:layout_constraintBottom_toTopOf="@+id/actionShared"
+        app:layout_constraintEnd_toEndOf="@+id/actionShared"
+        app:layout_constraintStart_toStartOf="@+id/actionShared" />
 
     <Button
-        android:id="@+id/tvShared"
+        android:id="@+id/actionShared"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_marginBottom="88dp"

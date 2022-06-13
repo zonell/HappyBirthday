@@ -96,7 +96,7 @@ class MainViewModel : ViewModel() {
 
     fun photoAdded(photoUri: String?, photoType: PhotoType) {
         baby.apply {
-            this.photoUri = photoUri ?: ""
+            this.photoUri = photoUri
             this.photoType = photoType
         }
     }

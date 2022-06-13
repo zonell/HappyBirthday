@@ -5,7 +5,7 @@ import com.nanit.happybirthday.R
 data class UI(
     val background: Int,
     val backgroundImg: Int,
-    val photoBoarder: Int,
+    val colorBoarder: Int,
     val photoPlace: Int,
     val takePhoto: Int,
 ) {

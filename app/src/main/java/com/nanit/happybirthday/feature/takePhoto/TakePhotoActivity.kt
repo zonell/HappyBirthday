@@ -98,7 +98,7 @@ class TakePhotoActivity : AppCompatActivity() {
     companion object {
         const val PHOTO = "photo"
         private const val TAG = "CameraXBasic"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
 
         fun newIntent(context: Context): Intent {
             return Intent(context, TakePhotoActivity::class.java)

@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/ivPhoto"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/zero_size"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
+        android:adjustViewBounds="true"
         android:src="@drawable/ic_placeholder_green"
-        app:civ_border_color="@color/paleTeal"
-        app:civ_border_width="5dp"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +26,5 @@
         android:src="@drawable/ic_camera_icon_green"
         app:layout_constraintCircle="@+id/ivPhoto"
         app:layout_constraintCircleAngle="45"
-        app:layout_constraintCircleRadius="111dp"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
